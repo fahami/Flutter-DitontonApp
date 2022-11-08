@@ -31,6 +31,7 @@ import 'presentation/provider/tv_list_notifier.dart';
 import 'presentation/provider/tv_search_notifier.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   di.init();
   runApp(MyApp());
 }
