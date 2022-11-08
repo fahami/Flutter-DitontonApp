@@ -1,8 +1,9 @@
 import 'package:ditonton/common/constants.dart';
+import 'package:ditonton/injection.dart' as di;
 import 'package:ditonton/presentation/pages/about_page.dart';
+import 'package:ditonton/presentation/pages/home_movie_page.dart';
 import 'package:ditonton/presentation/pages/home_tv_page.dart';
 import 'package:ditonton/presentation/pages/movie_detail_page.dart';
-import 'package:ditonton/presentation/pages/home_movie_page.dart';
 import 'package:ditonton/presentation/pages/popular_movies_page.dart';
 import 'package:ditonton/presentation/pages/popular_tvs_page.dart';
 import 'package:ditonton/presentation/pages/search_page.dart';
@@ -22,13 +23,12 @@ import 'package:ditonton/presentation/provider/watchlist_tv_notifier.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:ditonton/injection.dart' as di;
 
+import 'presentation/provider/airing_today_tv.dart';
 import 'presentation/provider/top_rated_tvs_notifier.dart';
 import 'presentation/provider/tv_detail_notifier.dart';
 import 'presentation/provider/tv_list_notifier.dart';
 import 'presentation/provider/tv_search_notifier.dart';
-import 'presentation/provider/airing_today_tv.dart';
 
 void main() {
   di.init();
@@ -83,11 +83,10 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Ditonton Apps',
         theme: ThemeData.dark().copyWith(
-          colorScheme: kColorScheme,
           primaryColor: kRichBlack,
-          accentColor: kMikadoYellow,
           scaffoldBackgroundColor: kRichBlack,
           textTheme: kTextTheme,
+          colorScheme: kColorScheme.copyWith(secondary: kMikadoYellow),
         ),
         home: HomeMoviePage(),
         onGenerateRoute: (RouteSettings settings) {
