@@ -3,7 +3,10 @@ import 'package:ditonton/injection.dart' as di;
 import 'package:ditonton/presentation/bloc/movie_detail_bloc.dart';
 import 'package:ditonton/presentation/bloc/movie_recommendation_bloc.dart';
 import 'package:ditonton/presentation/bloc/search_tv_bloc.dart';
+import 'package:ditonton/presentation/bloc/tv_detail_bloc.dart';
+import 'package:ditonton/presentation/bloc/tv_recommendation_bloc.dart';
 import 'package:ditonton/presentation/bloc/watchlist_bloc.dart';
+import 'package:ditonton/presentation/bloc/watchlist_tv_bloc.dart';
 import 'package:ditonton/presentation/pages/about_page.dart';
 import 'package:ditonton/presentation/pages/home_movie_page.dart';
 import 'package:ditonton/presentation/pages/home_tv_page.dart';
@@ -31,7 +34,6 @@ import 'package:provider/provider.dart';
 import 'presentation/bloc/search_bloc.dart';
 import 'presentation/provider/airing_today_tv.dart';
 import 'presentation/provider/top_rated_tvs_notifier.dart';
-import 'presentation/provider/tv_detail_notifier.dart';
 import 'presentation/provider/tv_list_notifier.dart';
 import 'presentation/provider/tv_search_notifier.dart';
 
@@ -64,9 +66,6 @@ class MyApp extends StatelessWidget {
           create: (_) => di.locator<TvListNotifier>(),
         ),
         ChangeNotifierProvider(
-          create: (_) => di.locator<TvDetailNotifier>(),
-        ),
-        ChangeNotifierProvider(
           create: (_) => di.locator<TvSearchNotifier>(),
         ),
         ChangeNotifierProvider(
@@ -86,6 +85,9 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => di.locator<MovieRecommendationBloc>()),
         BlocProvider(create: (_) => di.locator<WatchlistBloc>()),
         BlocProvider(create: (_) => di.locator<MovieDetailBloc>()),
+        BlocProvider(create: (_) => di.locator<TvRecommendationBloc>()),
+        BlocProvider(create: (_) => di.locator<WatchlistTvBloc>()),
+        BlocProvider(create: (_) => di.locator<TvDetailBloc>()),
       ],
       child: MaterialApp(
         title: 'Ditonton Apps',

@@ -4,9 +4,13 @@ import 'package:ditonton/common/state_enum.dart';
 import 'package:ditonton/domain/entities/genre.dart';
 import 'package:ditonton/domain/entities/tv.dart';
 import 'package:ditonton/domain/entities/tv_detail.dart';
+import 'package:ditonton/presentation/bloc/tv_detail_bloc.dart';
+import 'package:ditonton/presentation/bloc/tv_recommendation_bloc.dart';
+import 'package:ditonton/presentation/bloc/watchlist_tv_bloc.dart';
 import 'package:ditonton/presentation/provider/tv_detail_notifier.dart';
 import 'package:ditonton/presentation/widgets/season_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
 
@@ -25,33 +29,43 @@ class _TvDetailPageState extends State<TvDetailPage> {
   void initState() {
     super.initState();
     Future.microtask(() {
-      Provider.of<TvDetailNotifier>(context, listen: false)
-          .fetchTvDetail(widget.id);
-      Provider.of<TvDetailNotifier>(context, listen: false)
-          .loadWatchlistStatus(widget.id);
+      context.read<TvDetailBloc>().add(FetchTvDetail(widget.id));
+      context.read<WatchlistTvBloc>().add(LoadWatchlistTvStatus(widget.id));
+      context
+          .read<TvRecommendationBloc>()
+          .add(FetchTvRecommendation(widget.id));
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    final tvRecommendationState = context.watch<TvRecommendationBloc>().state;
+    bool isAddedToWatchlist = context.select<WatchlistTvBloc, bool>((value) =>
+        (value.state is WatchlistTvStatus)
+            ? (value.state as WatchlistTvStatus).result
+            : false);
     return Scaffold(
-      body: Consumer<TvDetailNotifier>(
-        builder: (context, provider, child) {
-          if (provider.tvState == RequestState.Loading) {
+      body: BlocBuilder<TvDetailBloc, TvDetailState>(
+        builder: (context, state) {
+          if (state is TvDetailLoading) {
             return Center(
               child: CircularProgressIndicator(),
             );
-          } else if (provider.tvState == RequestState.Loaded) {
-            final tv = provider.tv;
+          } else if (state is TvDetailHasData) {
+            final tv = state.tv;
             return SafeArea(
               child: DetailContent(
                 tv,
-                provider.tvRecommendations,
-                provider.isAddedToWatchlist,
+                tvRecommendationState is TvRecommendationHasData
+                    ? tvRecommendationState.tvRecommendations
+                    : [],
+                isAddedToWatchlist,
               ),
             );
+          } else if (state is TvDetailError) {
+            return Text(state.message);
           } else {
-            return Text(provider.message);
+            return Text('Something went wrong');
           }
         },
       ),
@@ -65,6 +79,9 @@ class DetailContent extends StatelessWidget {
   final bool isAddedWatchlist;
 
   DetailContent(this.tv, this.recommendations, this.isAddedWatchlist);
+
+  static const watchlistAddSuccessMessage = 'Added to Watchlist';
+  static const watchlistRemoveSuccessMessage = 'Removed from Watchlist';
 
   @override
   Widget build(BuildContext context) {
@@ -109,26 +126,27 @@ class DetailContent extends StatelessWidget {
                             ElevatedButton(
                               onPressed: () async {
                                 if (!isAddedWatchlist) {
-                                  await Provider.of<TvDetailNotifier>(context,
-                                          listen: false)
-                                      .addWatchlist(tv);
+                                  context
+                                      .read<WatchlistTvBloc>()
+                                      .add(AddWatchlistTv(tv));
                                 } else {
-                                  await Provider.of<TvDetailNotifier>(context,
-                                          listen: false)
-                                      .removeFromWatchlist(tv);
+                                  context
+                                      .read<WatchlistTvBloc>()
+                                      .add(DeleteWatchlistTv(tv));
                                 }
 
-                                final message = Provider.of<TvDetailNotifier>(
-                                        context,
-                                        listen: false)
-                                    .watchlistMessage;
+                                final message = context
+                                    .select<WatchlistTvBloc, String>((bloc) =>
+                                        (bloc.state is WatchlistTvStatus)
+                                            ? (bloc.state as WatchlistTvStatus)
+                                                        .result ==
+                                                    false
+                                                ? watchlistAddSuccessMessage
+                                                : watchlistRemoveSuccessMessage
+                                            : "");
 
-                                if (message ==
-                                        TvDetailNotifier
-                                            .watchlistAddSuccessMessage ||
-                                    message ==
-                                        TvDetailNotifier
-                                            .watchlistRemoveSuccessMessage) {
+                                if (message == watchlistAddSuccessMessage ||
+                                    message == watchlistRemoveSuccessMessage) {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(content: Text(message)));
                                 } else {
