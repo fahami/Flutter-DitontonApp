@@ -27,6 +27,11 @@ import 'package:ditonton/domain/usecases/save_watchlist.dart';
 import 'package:ditonton/domain/usecases/save_watchlist_tv.dart';
 import 'package:ditonton/domain/usecases/search_movies.dart';
 import 'package:ditonton/domain/usecases/search_tvs.dart';
+import 'package:ditonton/presentation/bloc/movie_detail_bloc.dart';
+import 'package:ditonton/presentation/bloc/movie_recommendation_bloc.dart';
+import 'package:ditonton/presentation/bloc/search_bloc.dart';
+import 'package:ditonton/presentation/bloc/search_tv_bloc.dart';
+import 'package:ditonton/presentation/bloc/watchlist_bloc.dart';
 import 'package:ditonton/presentation/provider/airing_today_tv.dart';
 import 'package:ditonton/presentation/provider/movie_detail_notifier.dart';
 import 'package:ditonton/presentation/provider/movie_list_notifier.dart';
@@ -40,12 +45,23 @@ import 'package:ditonton/presentation/provider/tv_list_notifier.dart';
 import 'package:ditonton/presentation/provider/tv_search_notifier.dart';
 import 'package:ditonton/presentation/provider/watchlist_movie_notifier.dart';
 import 'package:ditonton/presentation/provider/watchlist_tv_notifier.dart';
-import 'package:http/http.dart' as http;
 import 'package:get_it/get_it.dart';
+import 'package:http/http.dart' as http;
 
 final locator = GetIt.instance;
 
 void init() {
+  // bloc
+  locator.registerFactory(() => SearchBloc(locator()));
+  locator.registerFactory(() => SearchTvBloc(locator()));
+  locator.registerFactory(() => MovieRecommendationBloc(locator()));
+  locator.registerFactory(() => WatchlistBloc(
+        addWatchlist: locator(),
+        removeWatchlist: locator(),
+        watchListStatus: locator(),
+      ));
+  locator.registerFactory(() => MovieDetailBloc(locator()));
+
   // provider
   locator.registerFactory(
     () => MovieListNotifier(
