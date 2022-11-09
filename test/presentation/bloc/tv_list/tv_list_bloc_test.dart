@@ -1,16 +1,11 @@
 import 'package:bloc_test/bloc_test.dart';
+import 'package:core/core.dart';
+import 'package:core/domain/entities/tv.dart';
 import 'package:dartz/dartz.dart';
-import 'package:ditonton/common/failure.dart';
-import 'package:ditonton/domain/entities/tv.dart';
-import 'package:ditonton/domain/usecases/get_airing_today_tvs.dart';
-import 'package:ditonton/domain/usecases/get_popular_tvs.dart';
-import 'package:ditonton/domain/usecases/get_top_rated_tvs.dart';
-import 'package:ditonton/presentation/bloc/airing_tv_bloc.dart';
-import 'package:ditonton/presentation/bloc/popular_tv_bloc.dart';
-import 'package:ditonton/presentation/bloc/top_rated_tv_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:tv/tv.dart';
 
 import 'tv_list_bloc_test.mocks.dart';
 

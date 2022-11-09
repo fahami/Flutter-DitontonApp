@@ -1,19 +1,11 @@
 import 'package:bloc_test/bloc_test.dart';
+import 'package:core/core.dart';
+import 'package:core/domain/entities/tv.dart';
 import 'package:dartz/dartz.dart';
-import 'package:ditonton/common/failure.dart';
-import 'package:ditonton/domain/entities/tv.dart';
-import 'package:ditonton/domain/usecases/get_tv_detail.dart';
-import 'package:ditonton/domain/usecases/get_tv_recommendations.dart';
-import 'package:ditonton/domain/usecases/get_watchlist_tv_status.dart';
-import 'package:ditonton/domain/usecases/get_watchlist_tvs.dart';
-import 'package:ditonton/domain/usecases/remove_watchlist_tv.dart';
-import 'package:ditonton/domain/usecases/save_watchlist_tv.dart';
-import 'package:ditonton/presentation/bloc/tv_detail_bloc.dart';
-import 'package:ditonton/presentation/bloc/tv_recommendation_bloc.dart';
-import 'package:ditonton/presentation/bloc/watchlist_tv_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:tv/tv.dart';
 
 import '../../../dummy_data/dummy_objects.dart';
 import 'tv_detail_bloc_test.mocks.dart';

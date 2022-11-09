@@ -1,9 +1,8 @@
-import 'package:ditonton/domain/usecases/get_watchlist_status.dart';
-import 'package:ditonton/domain/usecases/get_watchlist_tv_status.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+import 'package:tv/domain/usecases/get_watchlist_tv_status.dart';
 
-import '../../helpers/test_helper.mocks.dart';
+import '../../helpers/test_helper_test.mocks.dart';
 
 void main() {
   late GetWatchListTvStatus usecase;

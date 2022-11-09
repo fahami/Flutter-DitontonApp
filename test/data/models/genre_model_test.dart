@@ -1,4 +1,4 @@
-import 'package:ditonton/data/models/genre_model.dart';
+import 'package:core/data/models/genre_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
