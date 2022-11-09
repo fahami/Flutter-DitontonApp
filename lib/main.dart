@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:about/about_page.dart';
 import 'package:core/core.dart';
 import 'package:core/presentation/pages/watchlist_page.dart';
+import 'package:core/utils/http_client.dart';
 import 'package:ditonton/firebase_options.dart';
 import 'package:ditonton/injection.dart' as di;
 import 'package:firebase_core/firebase_core.dart';
@@ -20,6 +21,7 @@ import 'package:tv/tv.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  CustomHttpClient.init();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
