@@ -1,37 +1,34 @@
-import 'package:ditonton/common/constants.dart';
+import 'dart:ui';
+
+import 'package:about/about_page.dart';
+import 'package:core/core.dart';
+import 'package:core/presentation/pages/watchlist_page.dart';
+import 'package:ditonton/firebase_options.dart';
 import 'package:ditonton/injection.dart' as di;
-import 'package:ditonton/presentation/pages/about_page.dart';
-import 'package:ditonton/presentation/pages/home_movie_page.dart';
-import 'package:ditonton/presentation/pages/home_tv_page.dart';
-import 'package:ditonton/presentation/pages/movie_detail_page.dart';
-import 'package:ditonton/presentation/pages/popular_movies_page.dart';
-import 'package:ditonton/presentation/pages/popular_tvs_page.dart';
-import 'package:ditonton/presentation/pages/search_page.dart';
-import 'package:ditonton/presentation/pages/search_tv_page.dart';
-import 'package:ditonton/presentation/pages/top_rated_movies_page.dart';
-import 'package:ditonton/presentation/pages/top_rated_tvs_page.dart';
-import 'package:ditonton/presentation/pages/tv_detail_page.dart';
-import 'package:ditonton/presentation/pages/watchlist_page.dart';
-import 'package:ditonton/presentation/provider/movie_detail_notifier.dart';
-import 'package:ditonton/presentation/provider/movie_list_notifier.dart';
-import 'package:ditonton/presentation/provider/movie_search_notifier.dart';
-import 'package:ditonton/presentation/provider/popular_movies_notifier.dart';
-import 'package:ditonton/presentation/provider/popular_tvs_notifier.dart';
-import 'package:ditonton/presentation/provider/top_rated_movies_notifier.dart';
-import 'package:ditonton/presentation/provider/watchlist_movie_notifier.dart';
-import 'package:ditonton/presentation/provider/watchlist_tv_notifier.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movies/movies.dart';
 import 'package:provider/provider.dart';
+import 'package:search/presentation/bloc/search_bloc.dart';
+import 'package:search/presentation/bloc/search_tv_bloc.dart';
+import 'package:search/presentation/pages/search_page.dart';
+import 'package:search/presentation/pages/search_tv_page.dart';
+import 'package:tv/tv.dart';
 
-import 'presentation/provider/airing_today_tv.dart';
-import 'presentation/provider/top_rated_tvs_notifier.dart';
-import 'presentation/provider/tv_detail_notifier.dart';
-import 'presentation/provider/tv_list_notifier.dart';
-import 'presentation/provider/tv_search_notifier.dart';
-
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+  // Pass all uncaught asynchronous errors that aren't handled by the Flutter framework to Crashlytics
+  PlatformDispatcher.instance.onError = (error, stack) {
+    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+    return true;
+  };
   di.init();
   runApp(MyApp());
 }
@@ -41,45 +38,20 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(
-          create: (_) => di.locator<MovieListNotifier>(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => di.locator<MovieDetailNotifier>(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => di.locator<MovieSearchNotifier>(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => di.locator<TopRatedMoviesNotifier>(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => di.locator<PopularMoviesNotifier>(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => di.locator<WatchlistMovieNotifier>(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => di.locator<TvListNotifier>(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => di.locator<TvDetailNotifier>(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => di.locator<TvSearchNotifier>(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => di.locator<TopRatedTvsNotifier>(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => di.locator<PopularTvsNotifier>(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => di.locator<WatchlistTvNotifier>(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => di.locator<AiringTvsNotifier>(),
-        ),
+        BlocProvider(create: (_) => di.locator<SearchBloc>()),
+        BlocProvider(create: (_) => di.locator<SearchTvBloc>()),
+        BlocProvider(create: (_) => di.locator<MovieRecommendationBloc>()),
+        BlocProvider(create: (_) => di.locator<WatchlistBloc>()),
+        BlocProvider(create: (_) => di.locator<MovieDetailBloc>()),
+        BlocProvider(create: (_) => di.locator<TvRecommendationBloc>()),
+        BlocProvider(create: (_) => di.locator<WatchlistTvBloc>()),
+        BlocProvider(create: (_) => di.locator<TvDetailBloc>()),
+        BlocProvider(create: (_) => di.locator<NowPlayingMovieBloc>()),
+        BlocProvider(create: (_) => di.locator<AiringTvBloc>()),
+        BlocProvider(create: (_) => di.locator<PopularMovieBloc>()),
+        BlocProvider(create: (_) => di.locator<PopularTvBloc>()),
+        BlocProvider(create: (_) => di.locator<TopRatedMovieBloc>()),
+        BlocProvider(create: (_) => di.locator<TopRatedTvBloc>()),
       ],
       child: MaterialApp(
         title: 'Ditonton Apps',
