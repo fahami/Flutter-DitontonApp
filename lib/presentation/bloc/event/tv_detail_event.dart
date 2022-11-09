@@ -11,7 +11,4 @@ class FetchTvDetail extends TvDetailEvent {
   final int id;
 
   const FetchTvDetail(this.id);
-
-  @override
-  List<Object> get props => [id];
 }

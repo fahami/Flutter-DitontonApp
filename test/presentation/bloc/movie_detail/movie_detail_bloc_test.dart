@@ -120,6 +120,23 @@ void main() {
         verify(mockGetMovieDetail.execute(tId));
       },
     );
+
+    blocTest<MovieDetailBloc, MovieDetailState>(
+      'should change state to Error when usecase is failed',
+      build: (() {
+        when(mockGetMovieDetail.execute(tId))
+            .thenAnswer((_) async => Left(ServerFailure('Server Failure')));
+        return movieDetailBloc;
+      }),
+      act: ((bloc) => bloc.add(FetchMovieDetail(tId))),
+      expect: () => [
+        MovieDetailLoading(),
+        MovieDetailError('Server Failure'),
+      ],
+      verify: (bloc) {
+        verify(mockGetMovieDetail.execute(tId));
+      },
+    );
   });
 
   group('Get Movie Recommendations', () {
@@ -204,6 +221,66 @@ void main() {
         WatchlistError("Server Failure"),
       ],
       verify: (bloc) => verify(mockSaveWatchlist.execute(testMovieDetail)),
+    );
+
+    blocTest<WatchlistBloc, WatchlistState>(
+      'Should emit WatchlistStatus when event RemoveWatchlist successfully',
+      build: () {
+        when(mockRemoveWatchlist.execute(testMovieDetail))
+            .thenAnswer((_) async => Right("Removed from Watchlist"));
+        return watchlistBloc;
+      },
+      act: (bloc) => bloc.add(DeleteWatchlist(testMovieDetail)),
+      expect: () => [
+        WatchlistLoading(),
+        WatchlistStatus(false),
+      ],
+      verify: (bloc) => verify(mockRemoveWatchlist.execute(testMovieDetail)),
+    );
+
+    blocTest<WatchlistBloc, WatchlistState>(
+      'Should emit WatchlistError when event RemoveWatchlist unsuccessfully',
+      build: () {
+        when(mockRemoveWatchlist.execute(testMovieDetail))
+            .thenAnswer((_) async => Left(ServerFailure("Server Failure")));
+        return watchlistBloc;
+      },
+      act: (bloc) => bloc.add(DeleteWatchlist(testMovieDetail)),
+      expect: () => [
+        WatchlistLoading(),
+        WatchlistError("Server Failure"),
+      ],
+      verify: (bloc) => verify(mockRemoveWatchlist.execute(testMovieDetail)),
+    );
+
+    blocTest<WatchlistBloc, WatchlistState>(
+      'Should emit WatchlistStatus when event LoadWatchlist successfully',
+      build: () {
+        when(mockGetWatchlistMovies.execute())
+            .thenAnswer((_) async => Right(tMovies));
+        return watchlistBloc;
+      },
+      act: (bloc) => bloc.add(FetchWatchlist()),
+      expect: () => [
+        WatchlistLoading(),
+        WatchlistHasData(tMovies),
+      ],
+      verify: (bloc) => verify(mockGetWatchlistMovies.execute()),
+    );
+
+    blocTest<WatchlistBloc, WatchlistState>(
+      'Should emit WatchlistError when event LoadWatchlist unsuccessfully',
+      build: () {
+        when(mockGetWatchlistMovies.execute())
+            .thenAnswer((_) async => Left(ServerFailure("Server Failure")));
+        return watchlistBloc;
+      },
+      act: (bloc) => bloc.add(FetchWatchlist()),
+      expect: () => [
+        WatchlistLoading(),
+        WatchlistError("Server Failure"),
+      ],
+      verify: (bloc) => verify(mockGetWatchlistMovies.execute()),
     );
   });
 }

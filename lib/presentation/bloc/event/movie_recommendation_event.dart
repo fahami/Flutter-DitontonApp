@@ -11,7 +11,4 @@ class FetchMovieRecommendation extends MovieRecommendationEvent {
   final int movieId;
 
   FetchMovieRecommendation(this.movieId);
-
-  @override
-  List<Object> get props => [movieId];
 }

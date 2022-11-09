@@ -11,7 +11,4 @@ class OnQueryChanged extends SearchTvEvent {
   final String query;
 
   const OnQueryChanged(this.query);
-
-  @override
-  List<Object> get props => [query];
 }

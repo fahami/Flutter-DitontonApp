@@ -117,6 +117,23 @@ void main() {
         verify(mockGetTvDetail.execute(tId));
       },
     );
+
+    blocTest<TvDetailBloc, TvDetailState>(
+      'should change state to Error when usecase is failed',
+      build: (() {
+        when(mockGetTvDetail.execute(tId))
+            .thenAnswer((_) async => Left(ServerFailure('Server Failure')));
+        return tvDetailBloc;
+      }),
+      act: ((bloc) => bloc.add(FetchTvDetail(tId))),
+      expect: () => [
+        TvDetailLoading(),
+        TvDetailError('Server Failure'),
+      ],
+      verify: (bloc) {
+        verify(mockGetTvDetail.execute(tId));
+      },
+    );
   });
 
   group('Get Tv Recommendations', () {
@@ -202,6 +219,66 @@ void main() {
         WatchlistTvError("Server Failure"),
       ],
       verify: (bloc) => verify(mockSaveWatchTvlist.execute(testTVDetail)),
+    );
+
+    blocTest<WatchlistTvBloc, WatchlistTvState>(
+      'Should emit WatchlistStatus when event RemoveWatchlist successfully',
+      build: () {
+        when(mockRemoveWatchTvlist.execute(testTVDetail))
+            .thenAnswer((_) async => Right("Removed from Watchlist"));
+        return watchlistTvBloc;
+      },
+      act: (bloc) => bloc.add(DeleteWatchlistTv(testTVDetail)),
+      expect: () => [
+        WatchlistTvLoading(),
+        WatchlistTvStatus(false),
+      ],
+      verify: (bloc) => verify(mockRemoveWatchTvlist.execute(testTVDetail)),
+    );
+
+    blocTest<WatchlistTvBloc, WatchlistTvState>(
+      'Should emit WatchlistError when event RemoveWatchlist unsuccessfully',
+      build: () {
+        when(mockRemoveWatchTvlist.execute(testTVDetail))
+            .thenAnswer((_) async => Left(ServerFailure("Server Failure")));
+        return watchlistTvBloc;
+      },
+      act: (bloc) => bloc.add(DeleteWatchlistTv(testTVDetail)),
+      expect: () => [
+        WatchlistTvLoading(),
+        WatchlistTvError("Server Failure"),
+      ],
+      verify: (bloc) => verify(mockRemoveWatchTvlist.execute(testTVDetail)),
+    );
+
+    blocTest<WatchlistTvBloc, WatchlistTvState>(
+      'Should emit WatchlistStatus when event LoadWatchlist successfully',
+      build: () {
+        when(mockGetWatchlistTvs.execute())
+            .thenAnswer((_) async => Right(tTvs));
+        return watchlistTvBloc;
+      },
+      act: (bloc) => bloc.add(FetchWatchlistTv()),
+      expect: () => [
+        WatchlistTvLoading(),
+        WatchlistTvHasData(tTvs),
+      ],
+      verify: (bloc) => verify(mockGetWatchlistTvs.execute()),
+    );
+
+    blocTest<WatchlistTvBloc, WatchlistTvState>(
+      'Should emit WatchlistError when event LoadWatchlist unsuccessfully',
+      build: () {
+        when(mockGetWatchlistTvs.execute())
+            .thenAnswer((_) async => Left(ServerFailure("Server Failure")));
+        return watchlistTvBloc;
+      },
+      act: (bloc) => bloc.add(FetchWatchlistTv()),
+      expect: () => [
+        WatchlistTvLoading(),
+        WatchlistTvError("Server Failure"),
+      ],
+      verify: (bloc) => verify(mockGetWatchlistTvs.execute()),
     );
   });
 }

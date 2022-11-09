@@ -11,7 +11,4 @@ class FetchTvRecommendation extends TvRecommendationEvent {
   final int id;
 
   FetchTvRecommendation(this.id);
-
-  @override
-  List<Object> get props => [id];
 }

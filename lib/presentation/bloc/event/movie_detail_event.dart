@@ -11,7 +11,4 @@ class FetchMovieDetail extends MovieDetailEvent {
   final int movieId;
 
   FetchMovieDetail(this.movieId);
-
-  @override
-  List<Object> get props => [movieId];
 }

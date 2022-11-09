@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "546795500354",
+    "project_id": "fahmi-ditonton-apps",
+    "storage_bucket": "fahmi-ditonton-apps.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:546795500354:android:1e985be52e85bb062fcedb",
+        "android_client_info": {
+          "package_name": "com.dicoding.ditonton"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "546795500354-ct1uo9igc6ne1q2q10pjejr495mvdsas.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBlcH6pV2YT1CT-i-4X-8ek9kHBYEW8hq4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "546795500354-ct1uo9igc6ne1q2q10pjejr495mvdsas.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "546795500354-melhgrsujcjoro3ehcr74lj7f2i97at1.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.dicoding.ditonton"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

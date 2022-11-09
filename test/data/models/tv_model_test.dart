@@ -1,42 +1,42 @@
-import 'package:ditonton/data/models/movie_model.dart';
-import 'package:ditonton/domain/entities/movie.dart';
+import 'package:ditonton/data/models/tv_model.dart';
+import 'package:ditonton/domain/entities/tv.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  final tMovieModel = MovieModel(
-    adult: false,
+  final tTvModel = TvModel(
     backdropPath: 'backdropPath',
     genreIds: [1, 2, 3],
     id: 1,
-    originalTitle: 'originalTitle',
     overview: 'overview',
     popularity: 1,
     posterPath: 'posterPath',
-    releaseDate: 'releaseDate',
-    title: 'title',
-    video: false,
     voteAverage: 1,
     voteCount: 1,
+    firstAirDate: '2021-11-01',
+    name: 'Name',
+    originalLanguage: 'lang',
+    originalName: 'name',
+    originCountry: ["cd"],
   );
 
-  final tMovie = Movie(
-    adult: false,
+  final tTv = Tv(
     backdropPath: 'backdropPath',
     genreIds: [1, 2, 3],
     id: 1,
-    originalTitle: 'originalTitle',
     overview: 'overview',
     popularity: 1,
     posterPath: 'posterPath',
-    releaseDate: 'releaseDate',
-    title: 'title',
-    video: false,
     voteAverage: 1,
     voteCount: 1,
+    firstAirDate: '2021-11-01',
+    name: 'Name',
+    originalLanguage: 'lang',
+    originalName: 'name',
+    originCountry: ["cd"],
   );
 
-  test('should be a subclass of Movie entity', () async {
-    final result = tMovieModel.toEntity();
-    expect(result, tMovie);
+  test('should be a subclass of TV entity', () async {
+    final result = tTvModel.toEntity();
+    expect(result, tTv);
   });
 }
