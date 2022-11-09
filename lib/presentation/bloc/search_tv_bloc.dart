@@ -4,8 +4,8 @@ import 'package:ditonton/domain/entities/tv.dart';
 import 'package:ditonton/domain/usecases/search_tvs.dart';
 import 'package:equatable/equatable.dart';
 
-part 'search_tv_event.dart';
-part 'search_tv_state.dart';
+part 'event/search_tv_event.dart';
+part 'state/search_tv_state.dart';
 
 class SearchTvBloc extends Bloc<SearchTvEvent, SearchTvState> {
   final SearchTvs _searchTvs;

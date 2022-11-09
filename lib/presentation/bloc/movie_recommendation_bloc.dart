@@ -3,8 +3,8 @@ import 'package:ditonton/domain/entities/movie.dart';
 import 'package:ditonton/domain/usecases/get_movie_recommendations.dart';
 import 'package:equatable/equatable.dart';
 
-part 'movie_recommendation_event.dart';
-part 'movie_recommendation_state.dart';
+part 'event/movie_recommendation_event.dart';
+part 'state/movie_recommendation_state.dart';
 
 class MovieRecommendationBloc
     extends Bloc<MovieRecommendationEvent, MovieRecommendationState> {

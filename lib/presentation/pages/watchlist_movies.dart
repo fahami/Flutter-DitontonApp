@@ -1,8 +1,7 @@
-import 'package:ditonton/common/state_enum.dart';
-import 'package:ditonton/presentation/provider/watchlist_movie_notifier.dart';
+import 'package:ditonton/presentation/bloc/watchlist_bloc.dart';
 import 'package:ditonton/presentation/widgets/movie_card_list.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class WatchlistMovies extends StatefulWidget {
   @override
@@ -13,32 +12,34 @@ class _WatchlistMoviesState extends State<WatchlistMovies> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() =>
-        Provider.of<WatchlistMovieNotifier>(context, listen: false)
-            .fetchWatchlistMovies());
+    Future.microtask(() => context.read<WatchlistBloc>().add(FetchWatchlist()));
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<WatchlistMovieNotifier>(
-      builder: (context, data, child) {
-        if (data.watchlistState == RequestState.Loading) {
+    return BlocBuilder<WatchlistBloc, WatchlistState>(
+      builder: (context, state) {
+        if (state is WatchlistLoading) {
           return Center(
             child: CircularProgressIndicator(),
           );
-        } else if (data.watchlistState == RequestState.Loaded) {
+        } else if (state is WatchlistHasData) {
           return ListView.builder(
             itemBuilder: (context, index) {
-              final movie = data.watchlistMovies[index];
+              final movie = state.movies[index];
               return MovieCard(movie);
             },
-            itemCount: data.watchlistMovies.length,
+            itemCount: state.movies.length,
           );
-        } else {
+        } else if (state is WatchlistError) {
           return Center(
             key: Key('error_message'),
-            child: Text(data.message),
+            child: Text(state.message),
           );
+        } else if (state is WatchlistEmpty) {
+          return Text('Empty');
+        } else {
+          return Container();
         }
       },
     );

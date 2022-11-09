@@ -3,17 +3,17 @@ import 'package:ditonton/domain/entities/tv.dart';
 import 'package:ditonton/domain/usecases/get_tv_recommendations.dart';
 import 'package:equatable/equatable.dart';
 
-part 'tv_recommendation_event.dart';
-part 'tv_recommendation_state.dart';
+part 'event/tv_recommendation_event.dart';
+part 'state/tv_recommendation_state.dart';
 
 class TvRecommendationBloc
     extends Bloc<TvRecommendationEvent, TvRecommendationState> {
   final GetTvRecommendations getTvRecommendations;
   TvRecommendationBloc(this.getTvRecommendations)
       : super(TvRecommendationEmpty()) {
-    on<FetchTvRecommendation>((event, emit) {
+    on<FetchTvRecommendation>((event, emit) async {
       emit(TvRecommendationLoading());
-      getTvRecommendations.execute(event.id).then((result) {
+      await getTvRecommendations.execute(event.id).then((result) {
         result.fold(
           (failure) => emit(TvRecommendationError(failure.message)),
           (data) => emit(TvRecommendationHasData(data)),

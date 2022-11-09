@@ -3,8 +3,8 @@ import 'package:ditonton/domain/entities/movie_detail.dart';
 import 'package:ditonton/domain/usecases/get_movie_detail.dart';
 import 'package:equatable/equatable.dart';
 
-part 'movie_detail_event.dart';
-part 'movie_detail_state.dart';
+part 'event/movie_detail_event.dart';
+part 'state/movie_detail_state.dart';
 
 class MovieDetailBloc extends Bloc<MovieDetailEvent, MovieDetailState> {
   final GetMovieDetail _movieDetail;
