@@ -4,8 +4,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
   late TextTheme style;
   setUp(() {
+    GoogleFonts.config.allowRuntimeFetching = false;
     style = kTextTheme;
   });
   test("should have valid text style", () {
