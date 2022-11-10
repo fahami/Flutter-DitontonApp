@@ -17,19 +17,10 @@ class NowPlayingMovieHasData extends NowPlayingMovieState {
   final List<Movie> movies;
 
   const NowPlayingMovieHasData(this.movies);
-
-  @override
-  List<Object> get props => [movies];
 }
 
 class NowPlayingMovieError extends NowPlayingMovieState {
   final String message;
 
   const NowPlayingMovieError(this.message);
-
-  @override
-  List<Object> get props => [message];
-
-  @override
-  String toString() => 'NowPlayingMovieError { message: $message }';
 }

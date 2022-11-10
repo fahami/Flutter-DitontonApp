@@ -11,22 +11,23 @@ dependencies:
   cached_network_image: ^3.2.2
   core:
     path: ../core
-  search:
-    path: ../search
   dartz: ^0.10.1
   equatable: ^2.0.5
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.1
   flutter_rating_bar: ^4.0.1
+  search:
+    path: ../search
 
 dev_dependencies:
   bloc_test: ^9.1.0
   build_runner: null
-  mockito: ^5.3.2
   flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter
+  mockito: ^5.3.2
+  mocktail: ^0.3.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

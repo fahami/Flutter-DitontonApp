@@ -26,10 +26,4 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       );
     }), transformer: debounce(const Duration(milliseconds: 500)));
   }
-  @override
-  void onChange(Change<SearchState> change) {
-    // TODO: implement onChange
-    super.onChange(change);
-    print(change);
-  }
 }
