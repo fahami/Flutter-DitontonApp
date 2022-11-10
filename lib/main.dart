@@ -20,7 +20,7 @@ import 'package:tv/tv.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  CustomHttpClient.init();
+  await CustomHttpClient.init();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
