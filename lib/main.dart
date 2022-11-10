@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:about/about_page.dart';
 import 'package:core/core.dart';
-import 'package:core/presentation/pages/watchlist_page.dart';
 import 'package:core/utils/http_client.dart';
 import 'package:ditonton/firebase_options.dart';
 import 'package:ditonton/injection.dart' as di;
@@ -95,8 +94,12 @@ class MyApp extends StatelessWidget {
               return CupertinoPageRoute(builder: (_) => SearchPage());
             case SearchTvPage.ROUTE_NAME:
               return CupertinoPageRoute(builder: (_) => SearchTvPage());
-            case WatchlistPage.ROUTE_NAME:
-              return MaterialPageRoute(builder: (_) => WatchlistPage());
+            case WatchlistMovies.ROUTE_NAME:
+              return MaterialPageRoute(
+                  builder: (_) => WatchlistMovies(), maintainState: false);
+            case WatchlistTvs.ROUTE_NAME:
+              return MaterialPageRoute(
+                  builder: (_) => WatchlistTvs(), maintainState: false);
             case AboutPage.ROUTE_NAME:
               return MaterialPageRoute(builder: (_) => AboutPage());
             default:

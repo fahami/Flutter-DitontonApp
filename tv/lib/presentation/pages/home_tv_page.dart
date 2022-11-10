@@ -56,8 +56,10 @@ class _HomeTvPageState extends State<HomeTvPage> {
                   );
                 } else if (state is AiringTvHasData) {
                   return TvList(state.tvs);
+                } else if (state is AiringTvError) {
+                  return Text(state.message);
                 } else {
-                  return const Text('Failed');
+                  return const SizedBox.shrink();
                 }
               }),
               _buildSubHeading(
@@ -73,8 +75,10 @@ class _HomeTvPageState extends State<HomeTvPage> {
                   );
                 } else if (state is PopularTvHasData) {
                   return TvList(state.tvs);
+                } else if (state is PopularTvError) {
+                  return Text(state.message);
                 } else {
-                  return const Text('Failed');
+                  return const SizedBox.shrink();
                 }
               }),
               _buildSubHeading(
@@ -90,8 +94,10 @@ class _HomeTvPageState extends State<HomeTvPage> {
                   );
                 } else if (state is TopRatedTvHasData) {
                   return TvList(state.tvs);
+                } else if (state is TopRatedTvError) {
+                  return Text(state.message);
                 } else {
-                  return const Text('Failed');
+                  return const SizedBox.shrink();
                 }
               }),
             ],

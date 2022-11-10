@@ -2,12 +2,11 @@ import 'package:about/about.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:core/core.dart';
 import 'package:core/domain/entities/movie.dart';
-import 'package:core/presentation/pages/watchlist_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies/movies.dart';
 import 'package:search/presentation/pages/search_page.dart';
-import 'package:tv/presentation/pages/home_tv_page.dart';
+import 'package:tv/tv.dart';
 
 class HomeMoviePage extends StatefulWidget {
   const HomeMoviePage({super.key});
@@ -54,13 +53,25 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
                 Navigator.pushNamed(context, HomeTvPage.ROUTE_NAME);
               },
             ),
-            ListTile(
-              leading: const Icon(Icons.save_alt),
-              title: const Text('Watchlist'),
-              onTap: () {
-                Navigator.pushNamed(context, WatchlistPage.ROUTE_NAME);
-              },
-            ),
+            ExpansionTile(
+                leading: const Icon(Icons.save_alt),
+                title: const Text("Watchlist"),
+                children: [
+                  ListTile(
+                    leading: const Icon(Icons.movie),
+                    title: const Text('Movies'),
+                    onTap: () {
+                      Navigator.pushNamed(context, WatchlistMovies.ROUTE_NAME);
+                    },
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.tv),
+                    title: const Text('TV'),
+                    onTap: () {
+                      Navigator.pushNamed(context, WatchlistTvs.ROUTE_NAME);
+                    },
+                  ),
+                ]),
             ListTile(
               onTap: () {
                 Navigator.pushNamed(context, AboutPage.ROUTE_NAME);
@@ -100,8 +111,10 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
                   );
                 } else if (state is NowPlayingMovieHasData) {
                   return MovieList(state.movies);
+                } else if (state is NowPlayingMovieError) {
+                  return Text(state.message);
                 } else {
-                  return const Text('Failed');
+                  return const SizedBox.shrink();
                 }
               }),
               _buildSubHeading(
@@ -117,8 +130,10 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
                   );
                 } else if (state is PopularMovieHasData) {
                   return MovieList(state.movies);
+                } else if (state is PopularMovieError) {
+                  return Text(state.message);
                 } else {
-                  return const Text('Failed');
+                  return const SizedBox.shrink();
                 }
               }),
               _buildSubHeading(
@@ -134,8 +149,10 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
                   );
                 } else if (state is TopRatedMovieHasData) {
                   return MovieList(state.movies);
+                } else if (state is TopRatedMovieError) {
+                  return Text(state.message);
                 } else {
-                  return const Text('Failed');
+                  return const SizedBox.shrink();
                 }
               }),
             ],

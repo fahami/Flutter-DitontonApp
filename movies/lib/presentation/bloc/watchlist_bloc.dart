@@ -51,10 +51,4 @@ class WatchlistBloc extends Bloc<WatchlistEvent, WatchlistState> {
       );
     });
   }
-  @override
-  void onChange(Change<WatchlistState> change) {
-    // TODO: implement onChange
-    super.onChange(change);
-    print(change);
-  }
 }

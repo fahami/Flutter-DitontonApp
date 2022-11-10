@@ -44,6 +44,11 @@ class SearchPage extends StatelessWidget {
                   );
                 } else if (state is SearchHasData) {
                   final result = state.movies;
+                  if (result.isEmpty) {
+                    return const Center(
+                      child: Text('No result'),
+                    );
+                  }
                   return Expanded(
                     child: ListView.builder(
                       padding: const EdgeInsets.all(8),
@@ -54,6 +59,8 @@ class SearchPage extends StatelessWidget {
                       itemCount: result.length,
                     ),
                   );
+                } else if (state is SearchError) {
+                  return Center(child: Text(state.message));
                 } else {
                   return Expanded(
                     child: Container(),
