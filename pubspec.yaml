@@ -9,9 +9,9 @@ environment:
 
 dependencies:
   about:
-    path: about
+    path: lib/packages/about
   core:
-    path: core
+    path: lib/packages/core
   cupertino_icons: ^1.0.2
   firebase_analytics: ^10.0.4
   firebase_core: ^2.1.1
@@ -22,11 +22,11 @@ dependencies:
   get_it: ^7.2.0
   http: ^0.13.5
   movies:
-    path: movies
+    path: lib/packages/movies
   search:
-    path: search
+    path: lib/packages/search
   tv:
-    path: tv
+    path: lib/packages/tv
 
 dev_dependencies:
   bloc_test: ^9.1.0
